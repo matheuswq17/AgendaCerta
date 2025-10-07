@@ -40,8 +40,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     if (href) {
       const disabledClass = (isLoading || props.disabled) ? ' pointer-events-none opacity-50' : '';
+      const onClickAnchor = (props.onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>) ?? undefined;
       return (
-        <Link href={href} prefetch={prefetch ?? null} className={classes + disabledClass} onClick={props.onClick as React.MouseEventHandler<HTMLAnchorElement}>
+        <Link href={href} prefetch={prefetch ?? null} className={classes + disabledClass} onClick={onClickAnchor}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {children}
         </Link>
