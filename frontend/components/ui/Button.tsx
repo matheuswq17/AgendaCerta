@@ -26,11 +26,12 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
   href?: string;
-  prefetch?: boolean;
+  prefetch?: boolean | null;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -40,7 +41,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (href) {
       const disabledClass = (isLoading || props.disabled) ? ' pointer-events-none opacity-50' : '';
       return (
-        <Link href={href} prefetch={prefetch} className={classes + disabledClass} onClick={props.onClick}>
+        <Link href={href} prefetch={prefetch ?? null} className={classes + disabledClass} onClick={props.onClick as React.MouseEventHandler<HTMLAnchorElement}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {children}
         </Link>
